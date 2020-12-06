@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:login_flutter/add_experience.dart';
 import 'package:login_flutter/constants.dart';
+import 'package:latlong/latlong.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -54,6 +56,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             Container(
               child: (experiences?.length ?? 0) > 0
@@ -73,7 +76,19 @@ class _HomePageState extends State<HomePage> {
                     ),
             ),
             Container(
-              child: Center(child: Text('map')),
+              child: FlutterMap(
+                options: new MapOptions(
+                  center: new LatLng(51.5, -0.09),
+                  zoom: 13.0,
+                ),
+                layers: [
+                  new TileLayerOptions(
+                    urlTemplate:
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: ['a', 'b', 'c'],
+                  ),
+                ],
+              ),
             ),
             Container(
               child: Center(child: Text('profile')),
